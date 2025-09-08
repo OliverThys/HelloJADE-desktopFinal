@@ -1,0 +1,243 @@
+{
+  "prompts": {
+    "welcome": {
+      "file": "welcome.wav",
+      "text": "Bonjour, je suis Jade, votre assistant vocal de l'hôpital. Cet appel dure 3 minutes et est transmis à votre équipe médicale. Je m'adresse bien à",
+      "duration": 8
+    },
+    "identity_check": {
+      "file": "identity_check.wav",
+      "text": "Pour votre sécurité, confirmez votre identité. Répondez par oui ou non.",
+      "duration": 5
+    },
+    "birth_date_question": {
+      "file": "birth_date_question.wav",
+      "text": "Confirmez votre date de naissance. Dites-moi jour, mois, année.",
+      "duration": 6
+    },
+    "pain_question": {
+      "file": "pain_question.wav",
+      "text": "Votre douleur aujourd'hui, de 0 à 10 ?",
+      "duration": 4
+    },
+    "pain_location_question": {
+      "file": "pain_location_question.wav",
+      "text": "Où avez-vous mal ?",
+      "duration": 3
+    },
+    "medication_question": {
+      "file": "medication_question.wav",
+      "text": "Prenez-vous vos médicaments comme prescrit ? Répondez par oui ou non.",
+      "duration": 5
+    },
+    "transit_question": {
+      "file": "transit_question.wav",
+      "text": "Allez-vous aux toilettes normalement ? Oui ou non ?",
+      "duration": 4
+    },
+    "transit_problem_question": {
+      "file": "transit_problem_question.wav",
+      "text": "Quel est le problème ?",
+      "duration": 3
+    },
+    "mood_question": {
+      "file": "mood_question.wav",
+      "text": "Votre moral aujourd'hui, de 0 à 10 ?",
+      "duration": 4
+    },
+    "mood_details_question": {
+      "file": "mood_details_question.wav",
+      "text": "Que ressens-vous exactement ?",
+      "duration": 3
+    },
+    "fever_question": {
+      "file": "fever_question.wav",
+      "text": "Avez-vous de la fièvre ? Oui ou non ?",
+      "duration": 4
+    },
+    "temperature_question": {
+      "file": "temperature_question.wav",
+      "text": "Quelle température ?",
+      "duration": 3
+    },
+    "other_question": {
+      "file": "other_question.wav",
+      "text": "Autre chose à signaler ? Une phrase suffit.",
+      "duration": 4
+    },
+    "call_ending": {
+      "file": "call_ending.wav",
+      "text": "Merci. Vos réponses sont transmises à votre médecin. Si besoin, vous serez recontacté dans les 24h. Bonne journée, c'était Jade.",
+      "duration": 8
+    },
+    "emergency_detected": {
+      "file": "emergency_detected.wav",
+      "text": "Urgence détectée. Vous allez être transféré vers les services d'urgence.",
+      "duration": 6
+    },
+    "emergency_transfer": {
+      "file": "emergency_transfer.wav",
+      "text": "Transfert vers les services d'urgence en cours.",
+      "duration": 4
+    },
+    "test_message": {
+      "file": "test_message.wav",
+      "text": "Test du système HelloJADE. Tout fonctionne correctement.",
+      "duration": 5
+    },
+    "beep": {
+      "file": "beep.wav",
+      "text": "",
+      "duration": 1
+    },
+    "error_message": {
+      "file": "error_message.wav",
+      "text": "Je n'ai pas bien compris. Pouvez-vous répéter ?",
+      "duration": 4
+    },
+    "timeout_message": {
+      "file": "timeout_message.wav",
+      "text": "Je n'ai pas entendu de réponse. L'appel va se terminer.",
+      "duration": 5
+    }
+  },
+  "dialogue_flow": {
+    "steps": [
+      {
+        "id": "identity_verification",
+        "prompt": "identity_check",
+        "expected_responses": ["oui", "non", "exact", "c'est moi"],
+        "timeout": 10,
+        "retry_count": 2
+      },
+      {
+        "id": "birth_date",
+        "prompt": "birth_date_question",
+        "expected_responses": ["date"],
+        "timeout": 15,
+        "retry_count": 2
+      },
+      {
+        "id": "pain_level",
+        "prompt": "pain_question",
+        "expected_responses": ["number"],
+        "timeout": 5,
+        "retry_count": 1
+      },
+      {
+        "id": "pain_location",
+        "prompt": "pain_location_question",
+        "expected_responses": ["text"],
+        "timeout": 10,
+        "retry_count": 1
+      },
+      {
+        "id": "medication",
+        "prompt": "medication_question",
+        "expected_responses": ["oui", "non"],
+        "timeout": 5,
+        "retry_count": 1
+      },
+      {
+        "id": "transit",
+        "prompt": "transit_question",
+        "expected_responses": ["oui", "non"],
+        "timeout": 5,
+        "retry_count": 1
+      },
+      {
+        "id": "transit_problem",
+        "prompt": "transit_problem_question",
+        "expected_responses": ["text"],
+        "timeout": 10,
+        "retry_count": 1,
+        "conditional": "transit_response == 'non'"
+      },
+      {
+        "id": "mood",
+        "prompt": "mood_question",
+        "expected_responses": ["number"],
+        "timeout": 5,
+        "retry_count": 1
+      },
+      {
+        "id": "mood_details",
+        "prompt": "mood_details_question",
+        "expected_responses": ["text"],
+        "timeout": 10,
+        "retry_count": 1,
+        "conditional": "mood_level < 7"
+      },
+      {
+        "id": "fever",
+        "prompt": "fever_question",
+        "expected_responses": ["oui", "non"],
+        "timeout": 5,
+        "retry_count": 1
+      },
+      {
+        "id": "temperature",
+        "prompt": "temperature_question",
+        "expected_responses": ["number"],
+        "timeout": 5,
+        "retry_count": 1,
+        "conditional": "fever_response == 'oui'"
+      },
+      {
+        "id": "other_complaints",
+        "prompt": "other_question",
+        "expected_responses": ["text"],
+        "timeout": 15,
+        "retry_count": 1
+      }
+    ]
+  },
+  "scoring_algorithm": {
+    "base_score": 100,
+    "penalties": {
+      "pain_level_high": {
+        "threshold": 5,
+        "penalty": 20
+      },
+      "medication_non_compliance": {
+        "penalty": 15
+      },
+      "transit_problems": {
+        "penalty": 10
+      },
+      "mood_low": {
+        "threshold": 5,
+        "penalty": 15
+      },
+      "fever_present": {
+        "penalty": 20
+      },
+      "emergency_keywords": {
+        "keywords": ["urgence", "ambulance", "hôpital", "douleur forte", "sang", "crise"],
+        "penalty": 20
+      }
+    },
+    "score_ranges": {
+      "excellent": {
+        "min": 80,
+        "max": 100,
+        "description": "Excellent état de santé"
+      },
+      "good": {
+        "min": 60,
+        "max": 79,
+        "description": "État de santé correct"
+      },
+      "moderate": {
+        "min": 40,
+        "max": 59,
+        "description": "Surveillance recommandée"
+      },
+      "poor": {
+        "min": 0,
+        "max": 39,
+        "description": "Attention médicale requise"
+      }
+    }
+  }
+}

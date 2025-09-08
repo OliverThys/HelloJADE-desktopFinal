@@ -1,0 +1,172 @@
+version: "3.1"
+
+intents:
+  - greet
+  - confirm_identity
+  - deny_identity
+  - provide_birth_date
+  - provide_pain_level
+  - provide_pain_location
+  - confirm_medication
+  - deny_medication
+  - confirm_transit
+  - deny_transit
+  - provide_transit_problem
+  - provide_mood_level
+  - provide_mood_details
+  - confirm_fever
+  - deny_fever
+  - provide_temperature
+  - provide_other_complaints
+  - emergency
+  - goodbye
+  - affirm
+  - deny
+  - out_of_scope
+
+entities:
+  - birth_date
+  - pain_level
+  - pain_location
+  - transit_problem
+  - mood_level
+  - mood_details
+  - temperature
+  - other_complaints
+  - emergency_type
+
+slots:
+  patient_confirmed:
+    type: bool
+    mappings:
+    - type: from_entity
+      entity: patient_confirmed
+  birth_date:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: birth_date
+  pain_level:
+    type: float
+    mappings:
+    - type: from_entity
+      entity: pain_level
+  pain_location:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: pain_location
+  medication_compliance:
+    type: bool
+    mappings:
+    - type: from_entity
+      entity: medication_compliance
+  transit_normal:
+    type: bool
+    mappings:
+    - type: from_entity
+      entity: transit_normal
+  transit_problem:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: transit_problem
+  mood_level:
+    type: float
+    mappings:
+    - type: from_entity
+      entity: mood_level
+  mood_details:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: mood_details
+  fever_present:
+    type: bool
+    mappings:
+    - type: from_entity
+      entity: fever_present
+  temperature:
+    type: float
+    mappings:
+    - type: from_entity
+      entity: temperature
+  other_complaints:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: other_complaints
+  emergency_detected:
+    type: bool
+    mappings:
+    - type: from_entity
+      entity: emergency_detected
+
+responses:
+  utter_greet:
+  - text: "Bonjour, je suis Jade, votre assistant vocal de l'hôpital. Cet appel dure 3 minutes et est transmis à votre équipe médicale. Je m'adresse bien à {patient_name} ?"
+  
+  utter_ask_identity_confirmation:
+  - text: "Pour votre sécurité, confirmez votre identité. Répondez par oui ou non."
+  
+  utter_ask_birth_date:
+  - text: "Confirmez votre date de naissance. Dites-moi jour, mois, année."
+  
+  utter_ask_pain_level:
+  - text: "Votre douleur aujourd'hui, de 0 à 10 ?"
+  
+  utter_ask_pain_location:
+  - text: "Où avez-vous mal ?"
+  
+  utter_ask_medication:
+  - text: "Prenez-vous vos médicaments comme prescrit ? Répondez par oui ou non."
+  
+  utter_ask_transit:
+  - text: "Allez-vous aux toilettes normalement ? Oui ou non ?"
+  
+  utter_ask_transit_problem:
+  - text: "Quel est le problème ?"
+  
+  utter_ask_mood:
+  - text: "Votre moral aujourd'hui, de 0 à 10 ?"
+  
+  utter_ask_mood_details:
+  - text: "Que ressens-vous exactement ?"
+  
+  utter_ask_fever:
+  - text: "Avez-vous de la fièvre ? Oui ou non ?"
+  
+  utter_ask_temperature:
+  - text: "Quelle température ?"
+  
+  utter_ask_other_complaints:
+  - text: "Autre chose à signaler ? Une phrase suffit."
+  
+  utter_call_ending:
+  - text: "Merci {patient_name}. Vos réponses sont transmises à votre médecin. Si besoin, vous serez recontacté dans les 24h. Bonne journée, c'était Jade."
+  
+  utter_emergency_detected:
+  - text: "Urgence détectée. Vous allez être transféré vers les services d'urgence."
+  
+  utter_error_understanding:
+  - text: "Je n'ai pas bien compris. Pouvez-vous répéter ?"
+  
+  utter_timeout:
+  - text: "Je n'ai pas entendu de réponse. L'appel va se terminer."
+
+actions:
+  - action_validate_identity
+  - action_validate_birth_date
+  - action_validate_pain_level
+  - action_validate_medication
+  - action_validate_transit
+  - action_validate_mood
+  - action_validate_fever
+  - action_validate_other_complaints
+  - action_calculate_score
+  - action_detect_emergency
+  - action_save_call_results
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

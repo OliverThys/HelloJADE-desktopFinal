@@ -1,0 +1,129 @@
+app:
+  name: "HelloJADE"
+  version: "2.0.0"
+  port: 8000
+  language: "fr"
+  environment: "development"
+
+authentication:
+  active_directory:
+    enabled: true
+    server: "hellojade.local"
+    port: 389
+    base_dn: "DC=hellojade,DC=local"
+    bind_dn: "CN=ServiceAccount,CN=Users,DC=hellojade,DC=local"
+    bind_password: "MotDePasse123!"
+
+databases:
+  hellojade:
+    type: "postgresql"
+    host: "localhost"
+    port: 5432
+    database: "hellojade"
+    username: "hellojade"
+    password: "hellojade123"
+    ssl: false
+  
+  hospital:
+    type: "oracle"
+    host: "localhost"
+    port: 1521
+    service_name: "XE"
+    username: "hospital_user"
+    password: "hospital_pass"
+
+asterisk:
+  host: "localhost"
+  ami_port: 5038
+  ami_user: "hellojade"
+  ami_password: "amp111"
+  ari_url: "http://localhost:8088"
+  ari_user: "hellojade"
+  ari_password: "hellojade123"
+  context: "hellojade-medical"
+  emergency_context: "emergency"
+
+ai_services:
+  whisper:
+    url: "http://localhost:8001"
+    model: "base"
+    language: "fr"
+  
+  ollama:
+    url: "http://localhost:11434"
+    model: "llama2"
+  
+  rasa:
+    url: "http://localhost:5005"
+    model: "hellojade-medical"
+
+redis:
+  host: "localhost"
+  port: 6379
+  password: ""
+  database: 0
+
+hospitals:
+  - id: "MONS"
+    name: "CHU de Mons"
+    address: "Avenue du Champ de Mars, 7000 Mons"
+    phone: "+32 65 37 21 11"
+    email: "contact@chumons.be"
+  
+  - id: "LILLE"
+    name: "CHU de Lille"
+    address: "2 Avenue Oscar Lambret, 59000 Lille"
+    phone: "+33 3 20 44 59 62"
+    email: "contact@chru-lille.fr"
+  
+  - id: "TOURNAI"
+    name: "CHR de Tournai"
+    address: "Rue de l'Hôpital, 7500 Tournai"
+    phone: "+32 69 22 22 11"
+    email: "contact@chrtournai.be"
+
+services:
+  - name: "Cardiologie"
+  - name: "Chirurgie"
+  - name: "Médecine interne"
+  - name: "Pneumologie"
+  - name: "Neurologie"
+  - name: "Oncologie"
+
+medical_scoring:
+  base_score: 100
+  penalties:
+    pain_level_high: 20
+    medication_non_compliance: 15
+    transit_problems: 10
+    mood_low: 15
+    fever_present: 20
+    emergency_keywords: 20
+  
+  thresholds:
+    excellent: 80
+    good: 60
+    moderate: 40
+    poor: 0
+
+call_settings:
+  max_attempts: 3
+  timeout: 300
+  retry_delay: 3600
+  emergency_score_threshold: 40
+
+logging:
+  level: "info"
+  file: "/var/log/hellojade/app.log"
+  max_size: "10MB"
+  max_files: 5
+
+monitoring:
+  enabled: true
+  metrics_port: 9090
+  health_check_interval: 30
+  alert_thresholds:
+    cpu_usage: 80
+    memory_usage: 80
+    disk_usage: 90
+    call_failure_rate: 20

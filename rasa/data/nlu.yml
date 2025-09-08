@@ -1,0 +1,245 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - bonjour
+    - salut
+    - hello
+    - allô
+    - oui c'est moi
+    - exact
+    - c'est bien moi
+
+- intent: confirm_identity
+  examples: |
+    - oui
+    - exact
+    - c'est moi
+    - c'est bien moi
+    - oui c'est [Marie](patient_name)
+    - exactement
+    - correct
+
+- intent: deny_identity
+  examples: |
+    - non
+    - ce n'est pas moi
+    - mauvaise personne
+    - erreur
+    - pas moi
+
+- intent: provide_birth_date
+  examples: |
+    - [15 mars 1970](birth_date)
+    - [15/03/1970](birth_date)
+    - [quinze mars soixante-dix](birth_date)
+    - [15 03 1970](birth_date)
+    - [15-03-1970](birth_date)
+    - [15.03.1970](birth_date)
+
+- intent: provide_pain_level
+  examples: |
+    - [0](pain_level)
+    - [1](pain_level)
+    - [2](pain_level)
+    - [3](pain_level)
+    - [4](pain_level)
+    - [5](pain_level)
+    - [6](pain_level)
+    - [7](pain_level)
+    - [8](pain_level)
+    - [9](pain_level)
+    - [10](pain_level)
+    - zéro
+    - un
+    - deux
+    - trois
+    - quatre
+    - cinq
+    - six
+    - sept
+    - huit
+    - neuf
+    - dix
+
+- intent: provide_pain_location
+  examples: |
+    - [tête](pain_location)
+    - [ventre](pain_location)
+    - [dos](pain_location)
+    - [jambe](pain_location)
+    - [bras](pain_location)
+    - [poitrine](pain_location)
+    - [cou](pain_location)
+    - [épaule](pain_location)
+    - [genou](pain_location)
+    - [cheville](pain_location)
+    - [côté droit](pain_location)
+    - [côté gauche](pain_location)
+    - [partout](pain_location)
+    - [nulle part](pain_location)
+
+- intent: confirm_medication
+  examples: |
+    - oui
+    - exactement
+    - comme prescrit
+    - tous les jours
+    - régulièrement
+    - correctement
+    - bien
+
+- intent: deny_medication
+  examples: |
+    - non
+    - pas toujours
+    - parfois
+    - j'oublie
+    - pas régulièrement
+    - mal
+
+- intent: confirm_transit
+  examples: |
+    - oui
+    - normal
+    - bien
+    - régulier
+    - correctement
+    - pas de problème
+
+- intent: deny_transit
+  examples: |
+    - non
+    - problème
+    - difficile
+    - constipé
+    - diarrhée
+    - pas normal
+
+- intent: provide_transit_problem
+  examples: |
+    - [constipation](transit_problem)
+    - [diarrhée](transit_problem)
+    - [difficile](transit_problem)
+    - [douloureux](transit_problem)
+    - [sang](transit_problem)
+    - [irrégulier](transit_problem)
+
+- intent: provide_mood_level
+  examples: |
+    - [0](mood_level)
+    - [1](mood_level)
+    - [2](mood_level)
+    - [3](mood_level)
+    - [4](mood_level)
+    - [5](mood_level)
+    - [6](mood_level)
+    - [7](mood_level)
+    - [8](mood_level)
+    - [9](mood_level)
+    - [10](mood_level)
+    - très mal
+    - mal
+    - moyen
+    - bien
+    - très bien
+
+- intent: provide_mood_details
+  examples: |
+    - [triste](mood_details)
+    - [déprimé](mood_details)
+    - [anxieux](mood_details)
+    - [stressé](mood_details)
+    - [fatigué](mood_details)
+    - [inquiet](mood_details)
+    - [nerveux](mood_details)
+    - [sans espoir](mood_details)
+
+- intent: confirm_fever
+  examples: |
+    - oui
+    - j'ai de la fièvre
+    - température
+    - chaud
+    - brûlant
+
+- intent: deny_fever
+  examples: |
+    - non
+    - pas de fièvre
+    - température normale
+    - pas chaud
+
+- intent: provide_temperature
+  examples: |
+    - [37.5](temperature)
+    - [38](temperature)
+    - [38.5](temperature)
+    - [39](temperature)
+    - [39.5](temperature)
+    - [40](temperature)
+    - [trente-sept cinq](temperature)
+    - [trente-huit](temperature)
+    - [trente-neuf](temperature)
+    - [quarante](temperature)
+
+- intent: provide_other_complaints
+  examples: |
+    - [rien](other_complaints)
+    - [tout va bien](other_complaints)
+    - [fatigue](other_complaints)
+    - [nausées](other_complaints)
+    - [vertiges](other_complaints)
+    - [essoufflement](other_complaints)
+    - [palpitations](other_complaints)
+    - [toux](other_complaints)
+
+- intent: emergency
+  examples: |
+    - urgence
+    - ambulance
+    - hôpital
+    - douleur forte
+    - sang
+    - crise
+    - malaise
+    - chute
+    - accident
+    - 112
+    - 15
+    - 18
+
+- intent: goodbye
+  examples: |
+    - au revoir
+    - à bientôt
+    - merci
+    - bonne journée
+    - ciao
+    - salut
+
+- intent: affirm
+  examples: |
+    - oui
+    - exact
+    - correct
+    - d'accord
+    - bien sûr
+    - évidemment
+
+- intent: deny
+  examples: |
+    - non
+    - pas du tout
+    - incorrect
+    - faux
+    - jamais
+
+- intent: out_of_scope
+  examples: |
+    - quel temps fait-il
+    - quelle heure est-il
+    - comment allez-vous
+    - racontez une blague
+    - chantez une chanson

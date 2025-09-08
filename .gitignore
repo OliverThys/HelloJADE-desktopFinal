@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+backend/node_modules/
+
+# Build outputs
+dist/
+build/
+*.log
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker/
+
+# Database
+*.db
+*.sqlite
+
+# Audio files
+*.wav
+*.mp3
+*.ogg
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Rasa cache
+rasa/.rasa/
+rasa/.keras/
+
+# Docker volumes
+postgres_data/
+redis_data/
+
+# Logs
+logs/
+*.log
+
+# Coverage
+coverage/
+
+# Runtime
+*.pid
+*.seed
+*.pid.lock

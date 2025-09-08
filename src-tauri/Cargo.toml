@@ -1,0 +1,23 @@
+[package]
+name = "hellojade-desktop"
+version = "2.0.0"
+description = "HelloJADE - Système de gestion post-hospitalisation"
+authors = ["HelloJADE Team"]
+license = "MIT"
+repository = "https://github.com/hellojade/desktop"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+tauri-build = { version = "1.5.0", features = [] }
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tauri = { version = "1.5.0", features = [ "dialog-open", "notification-all", "window-start-dragging", "fs-remove-file", "fs-read-dir", "shell-open", "window-maximize", "fs-write-file", "fs-rename-file", "fs-create-dir", "window-minimize", "window-unminimize", "window-hide", "path-all", "fs-read-file", "window-unmaximize", "fs-remove-dir", "window-show", "fs-exists", "fs-copy-file", "dialog-save", "window-close"] }
+
+[features]
+# this feature is used for production builds or when `devPath` points to the filesystem
+# DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]

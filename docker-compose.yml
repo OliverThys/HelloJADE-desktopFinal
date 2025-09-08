@@ -1,0 +1,191 @@
+version: '3.8'
+
+services:
+  # Base de données PostgreSQL pour HelloJADE
+  postgres:
+    image: postgres:15-alpine
+    container_name: hellojade-postgres
+    environment:
+      POSTGRES_DB: hellojade
+      POSTGRES_USER: hellojade
+      POSTGRES_PASSWORD: hellojade123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - hellojade-network
+    restart: unless-stopped
+
+  # Cache Redis
+  redis:
+    image: redis:7-alpine
+    container_name: hellojade-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - hellojade-network
+    restart: unless-stopped
+
+  # Service Whisper pour la transcription
+  whisper:
+    image: onerahmet/openai-whisper-asr-webservice:latest
+    container_name: hellojade-whisper
+    volumes:
+      - ./audio:/app/audio
+      - whisper_models:/root/.cache
+    ports:
+      - "9000:9000"
+    environment:
+      - ASR_MODEL=base
+      - ASR_ENGINE=openai_whisper
+      - ASR_LANGUAGE=fr
+    networks:
+      - hellojade-network
+    restart: unless-stopped
+
+  # Service Ollama pour l'analyse LLM
+  ollama:
+    image: ollama/ollama:latest
+    container_name: hellojade-ollama
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434"
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    networks:
+      - hellojade-network
+    restart: unless-stopped
+
+  # Service Rasa pour le dialogue IA
+  rasa:
+    image: rasa/rasa:3.6.20-full
+    container_name: hellojade-rasa
+    volumes:
+      - ./rasa:/app
+    ports:
+      - "5005:5005"
+    environment:
+      - RASA_ENDPOINT_URL=http://localhost:5005
+    networks:
+      - hellojade-network
+    restart: unless-stopped
+    command: run --enable-api --cors "*" --debug
+
+  # Service Asterisk PBX
+  asterisk:
+    image: mlan/asterisk:full
+    container_name: hellojade-asterisk
+    privileged: true
+    volumes:
+      - ./asterisk/etc/asterisk:/etc/asterisk
+      - ./asterisk/var/lib/asterisk:/var/lib/asterisk
+      - ./asterisk/var/spool/asterisk:/var/spool/asterisk
+      - ./asterisk/var/log/asterisk:/var/log/asterisk
+    ports:
+      - "5060:5060/udp"
+      - "5060-5061:5060-5061/tcp"
+      - "5038:5038"
+      - "8088:8088"
+      - "10000-10099:10000-10099/udp"
+    environment:
+      - ASTERISK_UID=1000
+      - ASTERISK_GID=1000
+    networks:
+      - hellojade-network
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - redis
+
+  # Backend API Node.js
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: hellojade-backend
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=hellojade
+      - DB_USER=hellojade
+      - DB_PASSWORD=hellojade123
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - ASTERISK_HOST=asterisk
+      - ASTERISK_AMI_PORT=5038
+      - ASTERISK_AMI_USER=hellojade
+      - ASTERISK_AMI_PASS=amp111
+      - WHISPER_URL=http://whisper:9000
+      - OLLAMA_URL=http://ollama:11434
+      - RASA_URL=http://rasa:5005
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - hellojade-network
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - redis
+      - asterisk
+      - whisper
+      - ollama
+      - rasa
+
+  # Frontend Vue.js + Tauri
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: hellojade-frontend
+    environment:
+      - VITE_API_URL=http://localhost:3000
+      - VITE_WS_URL=ws://localhost:3000
+    ports:
+      - "1420:1420"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/src-tauri/target
+    networks:
+      - hellojade-network
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: hellojade-nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - hellojade-network
+    restart: unless-stopped
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  postgres_data:
+  redis_data:
+  whisper_models:
+  ollama_data:
+
+networks:
+  hellojade-network:
+    driver: bridge

@@ -1,0 +1,215 @@
+version: "3.1"
+
+stories:
+
+- story: medical_call_flow
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: confirm_identity
+  - action: action_validate_identity
+  - action: utter_ask_birth_date
+  - intent: provide_birth_date
+  - action: action_validate_birth_date
+  - action: utter_ask_pain_level
+  - intent: provide_pain_level
+  - action: action_validate_pain_level
+  - action: utter_ask_pain_location
+  - intent: provide_pain_location
+  - action: utter_ask_medication
+  - intent: confirm_medication
+  - action: action_validate_medication
+  - action: utter_ask_transit
+  - intent: confirm_transit
+  - action: action_validate_transit
+  - action: utter_ask_mood
+  - intent: provide_mood_level
+  - action: action_validate_mood
+  - action: utter_ask_fever
+  - intent: deny_fever
+  - action: action_validate_fever
+  - action: utter_ask_other_complaints
+  - intent: provide_other_complaints
+  - action: action_validate_other_complaints
+  - action: action_calculate_score
+  - action: action_save_call_results
+  - action: utter_call_ending
+
+- story: medical_call_with_transit_problem
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: confirm_identity
+  - action: action_validate_identity
+  - action: utter_ask_birth_date
+  - intent: provide_birth_date
+  - action: action_validate_birth_date
+  - action: utter_ask_pain_level
+  - intent: provide_pain_level
+  - action: action_validate_pain_level
+  - action: utter_ask_pain_location
+  - intent: provide_pain_location
+  - action: utter_ask_medication
+  - intent: confirm_medication
+  - action: action_validate_medication
+  - action: utter_ask_transit
+  - intent: deny_transit
+  - action: action_validate_transit
+  - action: utter_ask_transit_problem
+  - intent: provide_transit_problem
+  - action: utter_ask_mood
+  - intent: provide_mood_level
+  - action: action_validate_mood
+  - action: utter_ask_fever
+  - intent: deny_fever
+  - action: action_validate_fever
+  - action: utter_ask_other_complaints
+  - intent: provide_other_complaints
+  - action: action_validate_other_complaints
+  - action: action_calculate_score
+  - action: action_save_call_results
+  - action: utter_call_ending
+
+- story: medical_call_with_fever
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: confirm_identity
+  - action: action_validate_identity
+  - action: utter_ask_birth_date
+  - intent: provide_birth_date
+  - action: action_validate_birth_date
+  - action: utter_ask_pain_level
+  - intent: provide_pain_level
+  - action: action_validate_pain_level
+  - action: utter_ask_pain_location
+  - intent: provide_pain_location
+  - action: utter_ask_medication
+  - intent: confirm_medication
+  - action: action_validate_medication
+  - action: utter_ask_transit
+  - intent: confirm_transit
+  - action: action_validate_transit
+  - action: utter_ask_mood
+  - intent: provide_mood_level
+  - action: action_validate_mood
+  - action: utter_ask_fever
+  - intent: confirm_fever
+  - action: action_validate_fever
+  - action: utter_ask_temperature
+  - intent: provide_temperature
+  - action: utter_ask_other_complaints
+  - intent: provide_other_complaints
+  - action: action_validate_other_complaints
+  - action: action_calculate_score
+  - action: action_save_call_results
+  - action: utter_call_ending
+
+- story: medical_call_with_low_mood
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: confirm_identity
+  - action: action_validate_identity
+  - action: utter_ask_birth_date
+  - intent: provide_birth_date
+  - action: action_validate_birth_date
+  - action: utter_ask_pain_level
+  - intent: provide_pain_level
+  - action: action_validate_pain_level
+  - action: utter_ask_pain_location
+  - intent: provide_pain_location
+  - action: utter_ask_medication
+  - intent: confirm_medication
+  - action: action_validate_medication
+  - action: utter_ask_transit
+  - intent: confirm_transit
+  - action: action_validate_transit
+  - action: utter_ask_mood
+  - intent: provide_mood_level
+  - action: action_validate_mood
+  - action: utter_ask_mood_details
+  - intent: provide_mood_details
+  - action: utter_ask_fever
+  - intent: deny_fever
+  - action: action_validate_fever
+  - action: utter_ask_other_complaints
+  - intent: provide_other_complaints
+  - action: action_validate_other_complaints
+  - action: action_calculate_score
+  - action: action_save_call_results
+  - action: utter_call_ending
+
+- story: emergency_detected
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: confirm_identity
+  - action: action_validate_identity
+  - action: utter_ask_birth_date
+  - intent: provide_birth_date
+  - action: action_validate_birth_date
+  - action: utter_ask_pain_level
+  - intent: provide_pain_level
+  - action: action_validate_pain_level
+  - action: utter_ask_pain_location
+  - intent: provide_pain_location
+  - action: utter_ask_medication
+  - intent: confirm_medication
+  - action: action_validate_medication
+  - action: utter_ask_transit
+  - intent: confirm_transit
+  - action: action_validate_transit
+  - action: utter_ask_mood
+  - intent: provide_mood_level
+  - action: action_validate_mood
+  - action: utter_ask_fever
+  - intent: deny_fever
+  - action: action_validate_fever
+  - action: utter_ask_other_complaints
+  - intent: emergency
+  - action: action_detect_emergency
+  - action: utter_emergency_detected
+  - action: action_save_call_results
+
+- story: identity_denied
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: deny_identity
+  - action: utter_error_understanding
+  - action: utter_ask_identity_confirmation
+  - intent: confirm_identity
+  - action: action_validate_identity
+  - action: utter_ask_birth_date
+  - intent: provide_birth_date
+  - action: action_validate_birth_date
+  - action: utter_ask_pain_level
+  - intent: provide_pain_level
+  - action: action_validate_pain_level
+  - action: utter_ask_pain_location
+  - intent: provide_pain_location
+  - action: utter_ask_medication
+  - intent: confirm_medication
+  - action: action_validate_medication
+  - action: utter_ask_transit
+  - intent: confirm_transit
+  - action: action_validate_transit
+  - action: utter_ask_mood
+  - intent: provide_mood_level
+  - action: action_validate_mood
+  - action: utter_ask_fever
+  - intent: deny_fever
+  - action: action_validate_fever
+  - action: utter_ask_other_complaints
+  - intent: provide_other_complaints
+  - action: action_validate_other_complaints
+  - action: action_calculate_score
+  - action: action_save_call_results
+  - action: utter_call_ending
+
+- story: out_of_scope
+  steps:
+  - intent: out_of_scope
+  - action: utter_error_understanding
+  - action: utter_ask_identity_confirmation
